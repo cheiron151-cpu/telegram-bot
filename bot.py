@@ -80,8 +80,10 @@ async def xu_huong_nhac(update: Update, context: ContextTypes.DEFAULT_TYPE):
     await update.message.reply_text("🎵 Đang tìm xu hướng âm nhạc...")
     now = datetime.now()
     ket_qua = search_va_tom_tat(
-        f"top bài hát trending Việt Nam tháng {now.month} năm {now.year} kenh14 znews baomoi "
-        f"nhạc Việt hot nhất tuần bảng xếp hạng âm nhạc {now.year}"
+        f"bài hát trending Việt Nam tháng {now.month} {now.year} "
+        f"Spotify Vietnam top chart TikTok viral YouTube Music trending "
+        f"Zing Chart Làn Sóng Xanh bảng xếp hạng tuần này "
+        f"nhạc Việt được nghe nhiều nhất được chia sẻ nhiều nhất {now.year}"
     )
     await update.message.reply_text(ket_qua)
 

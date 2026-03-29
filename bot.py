@@ -156,10 +156,9 @@ async def xem_danh_sach(update: Update, context: ContextTypes.DEFAULT_TYPE):
 
 # === Chạy bot ===
 if __name__ == "__main__":
-    # Fix cho Windows Python 3.12+
-    asyncio.set_event_loop_policy(asyncio.WindowsSelectorEventLoopPolicy())
-    loop = asyncio.new_event_loop()
-    asyncio.set_event_loop(loop)
+    # Fix cho Windows Python 3.12+ (chỉ áp dụng trên Windows)
+    if hasattr(asyncio, "WindowsSelectorEventLoopPolicy"):
+        asyncio.set_event_loop_policy(asyncio.WindowsSelectorEventLoopPolicy())
 
     app = ApplicationBuilder().token(os.getenv("TELEGRAM_TOKEN")).build()
 
@@ -174,3 +173,4 @@ if __name__ == "__main__":
 
     print("Bot dang chay...")
     app.run_polling()
+

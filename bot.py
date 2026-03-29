@@ -28,6 +28,9 @@ def save_quan_an(danh_sach):
 
 
 def search_va_tom_tat(chu_de: str) -> str:
+    now = datetime.now()
+    ngay_hom_nay = now.strftime("%d/%m/%Y")
+
     # Tìm kiếm xu hướng qua Tavily
     ket_qua = tavily.search(
         query=chu_de,
@@ -35,8 +38,11 @@ def search_va_tom_tat(chu_de: str) -> str:
         max_results=8
     )
 
-    # Gom nội dung tìm được
-    noi_dung = "\n".join([r["content"] for r in ket_qua["results"]])
+    # Gom nội dung tìm được (kèm URL nguồn để Claude biết độ mới)
+    noi_dung = "\n".join([
+        f"[{r.get('published_date', '')}] {r['content']}"
+        for r in ket_qua["results"]
+    ])
 
     # Dùng Claude tóm tắt
     response = claude.messages.create(
@@ -44,8 +50,8 @@ def search_va_tom_tat(chu_de: str) -> str:
         max_tokens=500,
         messages=[{
             "role": "user",
-            "content": f"""Dựa vào thông tin sau, hãy tóm tắt ngắn gọn top xu hướng {chu_de} hiện nay bằng tiếng Việt.
-Trình bày rõ ràng, dùng emoji cho sinh động, tối đa 5 mục.
+            "content": f"""Hôm nay là {ngay_hom_nay}. Dựa vào thông tin sau, hãy tóm tắt ngắn gọn top xu hướng hiện nay bằng tiếng Việt.
+Chỉ đề cập những gì thực sự mới và đang hot tính đến hôm nay. Trình bày rõ ràng, dùng emoji cho sinh động, tối đa 5 mục.
 
 Thông tin:
 {noi_dung}"""
@@ -94,7 +100,7 @@ async def xu_huong_game(update: Update, context: ContextTypes.DEFAULT_TYPE):
     await update.message.reply_text("🎮 Đang tìm xu hướng game...")
     now = datetime.now()
     ket_qua = search_va_tom_tat(
-        f"Steam best sellers top games {now.year} most played this week "
+        f"Steam best sellers top games tháng {now.month} {now.year} most played this week "
         f"game hot nhất đang được bàn luận IGN GameSpot PC Gamer {now.year}"
     )
     await update.message.reply_text(ket_qua)

@@ -2,6 +2,7 @@ import os
 import json
 import random
 import asyncio
+from datetime import datetime
 from dotenv import load_dotenv
 import anthropic
 from tavily import TavilyClient
@@ -71,27 +72,30 @@ async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
 
 async def xu_huong_nhac(update: Update, context: ContextTypes.DEFAULT_TYPE):
     await update.message.reply_text("🎵 Đang tìm xu hướng âm nhạc...")
+    now = datetime.now()
     ket_qua = search_va_tom_tat(
-        "top bài hát trending Việt Nam tháng này 2025 kenh14 znews baomoi "
-        "nhạc Việt hot nhất tuần bảng xếp hạng âm nhạc"
+        f"top bài hát trending Việt Nam tháng {now.month} năm {now.year} kenh14 znews baomoi "
+        f"nhạc Việt hot nhất tuần bảng xếp hạng âm nhạc {now.year}"
     )
     await update.message.reply_text(ket_qua)
 
 
 async def xu_huong_phim(update: Update, context: ContextTypes.DEFAULT_TYPE):
     await update.message.reply_text("🎬 Đang tìm xu hướng phim...")
+    now = datetime.now()
     ket_qua = search_va_tom_tat(
-        "phim đang chiếu rạp Việt Nam 2025 CGV Lotte Cinema doanh thu cao nhất "
-        "phim Netflix VieON FPT Play mới nhất đang hot tuần này"
+        f"phim đang chiếu rạp Việt Nam tháng {now.month} {now.year} CGV Lotte Cinema doanh thu cao nhất "
+        f"phim Netflix VieON FPT Play mới nhất đang hot tuần này {now.year}"
     )
     await update.message.reply_text(ket_qua)
 
 
 async def xu_huong_game(update: Update, context: ContextTypes.DEFAULT_TYPE):
     await update.message.reply_text("🎮 Đang tìm xu hướng game...")
+    now = datetime.now()
     ket_qua = search_va_tom_tat(
-        "Steam best sellers top games 2025 most played this week "
-        "game hot nhất đang được bàn luận IGN GameSpot PC Gamer"
+        f"Steam best sellers top games {now.year} most played this week "
+        f"game hot nhất đang được bàn luận IGN GameSpot PC Gamer {now.year}"
     )
     await update.message.reply_text(ket_qua)
 

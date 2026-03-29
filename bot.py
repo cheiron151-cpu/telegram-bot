@@ -89,13 +89,27 @@ async def xu_huong_nhac(update: Update, context: ContextTypes.DEFAULT_TYPE):
 
 
 async def xu_huong_phim(update: Update, context: ContextTypes.DEFAULT_TYPE):
-    await update.message.reply_text("🎬 Đang tìm xu hướng phim...")
+    await update.message.reply_text("🎬 Đang tìm xu hướng phim (có thể mất 15-20 giây)...")
     now = datetime.now()
-    ket_qua = search_va_tom_tat(
-        f"phim đang chiếu rạp Việt Nam tháng {now.month} {now.year} CGV Lotte Cinema doanh thu cao nhất "
-        f"phim Netflix VieON FPT Play mới nhất đang hot tuần này {now.year}"
+
+    rap = search_va_tom_tat(
+        f"phim đang chiếu rạp Việt Nam tháng {now.month} {now.year} "
+        f"CGV Lotte Cinema BHD doanh thu phòng vé cao nhất tuần này"
     )
-    await update.message.reply_text(ket_qua)
+
+    streaming = search_va_tom_tat(
+        f"phim mới trên Netflix VieON FPT Play HBO Max Disney+ tháng {now.month} {now.year} "
+        f"phim được xem nhiều nhất streaming Việt Nam tuần này"
+    )
+
+    mxh = search_va_tom_tat(
+        f"phim được thảo luận nhiều nhất mạng xã hội Việt Nam tháng {now.month} {now.year} "
+        f"TikTok Facebook Twitter Reddit phim viral review hot {now.year}"
+    )
+
+    await update.message.reply_text(f"🎥 *PHIM ĐANG CHIẾU RẠP*\n\n{rap}", parse_mode="Markdown")
+    await update.message.reply_text(f"📺 *PHIM MỚI TRÊN STREAMING*\n\n{streaming}", parse_mode="Markdown")
+    await update.message.reply_text(f"💬 *ĐANG ĐƯỢC BÀN LUẬN TRÊN MXH*\n\n{mxh}", parse_mode="Markdown")
 
 
 async def xu_huong_game(update: Update, context: ContextTypes.DEFAULT_TYPE):
